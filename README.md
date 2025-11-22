@@ -1,4 +1,4 @@
-# Quick Commerce Demo (Blinkit-inspired UI)
+# Quick Commerce (RushNow)
 
 This project is an original implementation inspired by Blinkit's quick commerce layout. It does **not** copy proprietary code or assets.
 
