@@ -19,11 +19,9 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // In a real app, you would check against a database
-        // For now, we'll use a simple check (you can replace this with your database logic)
-        // This is just for demo purposes
         const users = [
           { id: "1", email: "demo@rushnow.com", password: "demo123", name: "Demo User" },
+          {id : "2",email: "subeer@gmail.com",password:"123456",name:"subeer"},
         ];
 
         const user = users.find(

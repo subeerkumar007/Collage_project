@@ -18,12 +18,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // In a real app, you would:
-    // 1. Check if user already exists
-    // 2. Hash the password
-    // 3. Save to database
-    // For now, we'll just return success
-    // You can implement actual database logic here
 
     return NextResponse.json(
       { message: "User created successfully", user: { name, email } },

@@ -2,7 +2,6 @@ import "./globals.css";
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import CartSidebar from "../components/CartSidebar";
 import { CartProvider } from "../context/CartContext";
 import Providers from "../components/Providers";
 import Script from "next/script";
@@ -30,7 +29,6 @@ export default function RootLayout({
             <Navbar />
             <div className="flex-1 container mx-auto px-4 py-4">{children}</div>
             <Footer />
-            <CartSidebar />
           </CartProvider>
         </Providers>
       </body>

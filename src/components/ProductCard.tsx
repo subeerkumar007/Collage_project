@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
-import { Product } from "../lib/data";
+import { Product } from "../lib/products";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (

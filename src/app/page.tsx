@@ -1,13 +1,6 @@
-import ProductCard from "../components/ProductCard";
-import { products, categories } from "../lib/data";
 import Link from "next/link";
 
 export default function HomePage() {
-  // Group products by category
-  const productsByCategory = categories.map((category) => ({
-    category,
-    products: products.filter((p) => p.category === category.slug),
-  })).filter((group) => group.products.length > 0);
 
   return (
     <div className="space-y-12">
@@ -27,7 +20,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
-                  href="#products"
+                  href="/category/fruits"
                   className="px-8 py-3 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
                 >
                   Shop Now
@@ -91,36 +84,6 @@ export default function HomePage() {
           <p className="text-gray-600 text-sm">Competitive prices with great deals every day.</p>
         </div>
       </section>
-
-      {/* Products by Category */}
-      <div id="products" className="space-y-12">
-        {productsByCategory.map(({ category, products: categoryProducts }) => (
-          <section key={category.slug} className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-                  {category.name}
-                </h2>
-                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                  {categoryProducts.length} items
-                </span>
-              </div>
-              <Link
-                href={`/category/${category.slug}`}
-                className="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center gap-1"
-              >
-                View All
-                <span>→</span>
-              </Link>
-            </div>
-            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              {categoryProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
     </div>
   );
 }

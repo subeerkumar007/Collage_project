@@ -1,4 +1,4 @@
-import { categories, products } from "../../../lib/data";
+import { categories, products } from "../../../lib/products";
 import ProductCard from "../../../components/ProductCard";
 import { notFound } from "next/navigation";
 

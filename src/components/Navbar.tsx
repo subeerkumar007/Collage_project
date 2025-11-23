@@ -13,7 +13,7 @@ export default function Navbar() {
 
   const nav = [
     { label: "Home", href: "/", icon: "🏠" },
-    { label: "Fresh", href: "/category/fruits", icon: "🥬" },
+    { label: "Fruits", href: "/category/fruits", icon: "🥬" },
     { label: "Vegetables", href: "/category/vegetables", icon: "🥦" },
     { label: "Dairy", href: "/category/dairy", icon: "🥛" },
     { label: "Bakery", href: "/category/bakery", icon: "🍞" },

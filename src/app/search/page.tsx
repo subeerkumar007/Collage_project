@@ -1,4 +1,4 @@
-import { products } from "../../lib/data";
+import { products } from "../../lib/products";
 
 interface Props {
   searchParams: { q?: string };

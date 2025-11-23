@@ -1,6 +1,6 @@
 "use client";
 import { useCart } from "../context/CartContext";
-import { Product } from "../lib/data";
+import { Product } from "../lib/products";
 
 export default function AddToCartButton({
   product,
@@ -27,7 +27,7 @@ export default function AddToCartButton({
   if (existing) {
     return (
       <div
-        className={`inline-flex items-center rounded bg-brand text-white font-semibold w-full justify-between ${
+        className={`inline-flex items-center rounded bg-gradient-to-r from-purple-600 to-pink-600 text-black font-semibold w-full justify-between ${
           small ? "text-xs px-2 py-1" : "px-2 py-1"
         }`}
       >
@@ -55,7 +55,7 @@ export default function AddToCartButton({
       onClick={() => addItem(product)}
       className={`rounded ${
         small ? "text-xs px-2 py-1" : "px-4 py-2"
-      } bg-brand font-semibold w-full`}
+      } bg-gradient-to-r from-purple-600 to-pink-600 text-black font-semibold w-full`}
     >
       Add
     </button>

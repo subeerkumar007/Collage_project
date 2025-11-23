@@ -25,7 +25,7 @@ export default function CartSidebar() {
                 <img
                   src={i.image}
                   alt={i.name}
-                  className="w-14 h-14 rounded object-cover"
+                  className="w-15 h-15 rounded object-cover"
                 />
                 <div className="flex-1">
                   <p className="font-medium line-clamp-2">{i.name}</p>
