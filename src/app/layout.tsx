@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { CartProvider } from "../context/CartContext";
 import Providers from "../components/Providers";
+import { ToastProvider } from "../context/ToastContext";
+import Toast from "../components/Toast";
 import Script from "next/script";
 import type { Metadata } from "next";
 
@@ -26,9 +28,14 @@ export default function RootLayout({
         />
         <Providers>
           <CartProvider>
-            <Navbar />
-            <div className="flex-1 container mx-auto px-4 py-4">{children}</div>
-            <Footer />
+            <ToastProvider>
+              <Navbar />
+              <div className="flex-1 container mx-auto px-4 py-4">
+                {children}
+              </div>
+              <Footer />
+              <Toast />
+            </ToastProvider>
           </CartProvider>
         </Providers>
       </body>

@@ -9,17 +9,13 @@ export default function AddToCartButton({
   product: Product;
   small?: boolean;
 }) {
-  const { addItem, items } = useCart();
+  const { addItem, items, removeItem, updateQuantity } = useCart();
   const existing = items.find((i) => i.id === product.id);
-  const { removeItem, updateQuantity } = useCart();
 
   const onDecrease = () => {
     if (!existing) return;
-    if (existing.quantity > 1) {
-      updateQuantity(existing.id, existing.quantity - 1);
-    } else {
-      removeItem(existing.id);
-    }
+    if (existing.quantity > 1) updateQuantity(existing.id, existing.quantity - 1);
+    else removeItem(existing.id);
   };
 
   const onIncrease = () => addItem(product);
@@ -27,8 +23,10 @@ export default function AddToCartButton({
   if (existing) {
     return (
       <div
-        className={`inline-flex items-center rounded bg-gradient-to-r from-purple-600 to-pink-600 text-black font-semibold w-full justify-between ${
-          small ? "text-xs px-2 py-1" : "px-2 py-1"
+        className={`inline-flex items-center rounded bg-brand text-white font-semibold justify-between ${
+          small
+            ? "text-xs px-2 py-1 w-full sm:w-28"
+            : "text-sm px-2 py-1 w-full md:w-auto"
         }`}
       >
         <button
@@ -55,7 +53,7 @@ export default function AddToCartButton({
       onClick={() => addItem(product)}
       className={`rounded ${
         small ? "text-xs px-2 py-1" : "px-4 py-2"
-      } bg-gradient-to-r from-purple-600 to-pink-600 text-black font-semibold w-full`}
+      } bg-brand font-semibold w-full`}
     >
       Add
     </button>

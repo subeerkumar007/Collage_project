@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import Link from "next/link";
@@ -7,6 +7,7 @@ export default function CartSidebar() {
   const { items, subtotal, removeItem, updateQuantity } = useCart();
   const [open, setOpen] = useState(false);
   const count = items.reduce((a, c) => a + c.quantity, 0);
+
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <button
@@ -15,27 +16,28 @@ export default function CartSidebar() {
       >
         Cart ({count})
       </button>
+
       {open && (
-        <div className="absolute bottom-16 right-0 w-80 max-h-[70vh] overflow-y-auto bg-white rounded-lg shadow-lg p-4 space-y-4">
+        <div className="absolute left-0 right-0 bottom-0 sm:bottom-16 sm:right-0 sm:left-auto sm:w-80 max-h-[70vh] overflow-y-auto bg-white rounded-t-lg sm:rounded-lg shadow-lg p-4 space-y-4">
           <h3 className="font-semibold">Cart ({count})</h3>
           {items.length === 0 && <p className="text-sm">Cart empty.</p>}
+
           <ul className="space-y-3">
             {items.map((i) => (
               <li key={i.id} className="flex gap-2 items-start text-sm">
                 <img
                   src={i.image}
                   alt={i.name}
-                  className="w-15 h-15 rounded object-cover"
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded object-cover"
                 />
                 <div className="flex-1">
                   <p className="font-medium line-clamp-2">{i.name}</p>
                   <p>₹{i.price.toFixed(2)}</p>
                   <div className="mt-1">
-                    <div className="inline-flex items-center rounded bg-brand text-white font-semibold w-28 justify-between">
+                    <div className="inline-flex items-center rounded bg-brand text-white font-semibold w-24 sm:w-28 md:w-32 justify-between">
                       <button
                         onClick={() => {
-                          if (i.quantity > 1)
-                            updateQuantity(i.id, i.quantity - 1);
+                          if (i.quantity > 1) updateQuantity(i.id, i.quantity - 1);
                           else removeItem(i.id);
                         }}
                         aria-label={`Decrease quantity of ${i.name}`}
@@ -63,6 +65,7 @@ export default function CartSidebar() {
               </li>
             ))}
           </ul>
+
           {items.length > 0 && (
             <div className="space-y-2">
               <p className="font-semibold">Subtotal: ₹{subtotal.toFixed(2)}</p>

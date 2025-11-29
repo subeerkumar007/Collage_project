@@ -73,13 +73,13 @@ export default function SearchBar({ compact }: Props) {
   };
 
   return (
-    <div className={`relative ${compact ? "" : "max-w-xl mx-auto"}`}>
+    <div className={`relative w-full ${compact ? "" : "max-w-xl mx-auto"}`}>
       <input
         value={q}
         onChange={(e) => setQ(e.target.value)}
         onKeyDown={onKey}
         placeholder="Search products"
-        className="w-full border rounded px-3 py-2 text-sm focus:outline-brand"
+        className="w-full border rounded-lg px-4 py-2.5 text-sm bg-white shadow-sm border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-300"
       />
       {loading && (
         <div className="absolute right-2 top-2 text-xs text-gray-400">…</div>

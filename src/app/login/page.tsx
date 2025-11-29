@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "../../context/ToastContext";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -12,6 +13,7 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { showToast } = useToast();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,8 +33,13 @@ export default function LoginPage() {
         setError("Invalid email or password");
         setLoading(false);
       } else {
-        router.push("/");
-        router.refresh();
+        // show a brief toast, then navigate home
+        setLoading(false);
+        showToast("Login successful", "success", 1500);
+        setTimeout(() => {
+          router.push("/");
+          router.refresh();
+        }, 900);
       }
     } else {
       // Signup logic - you can implement this with your backend
@@ -51,8 +58,12 @@ export default function LoginPage() {
             redirect: false,
           });
           if (!result?.error) {
-            router.push("/");
-            router.refresh();
+            setLoading(false);
+            showToast("Account created — logged in", "success", 1500);
+            setTimeout(() => {
+              router.push("/");
+              router.refresh();
+            }, 900);
           }
         } else {
           const data = await res.json();
@@ -104,6 +115,8 @@ export default function LoginPage() {
             </div>
           )}
 
+          {/* Success toasts are shown globally via ToastProvider */}
+
           {/* Google Sign In Button */}
           <button
             onClick={handleGoogleSignIn}
@@ -136,7 +149,9 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with email</span>
+              <span className="px-2 bg-white text-gray-500">
+                Or continue with email
+              </span>
             </div>
           </div>
 
@@ -144,7 +159,10 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Full Name
                 </label>
                 <input
@@ -161,7 +179,10 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -178,7 +199,10 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <input
@@ -204,13 +228,19 @@ export default function LoginPage() {
                     type="checkbox"
                     className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
                     Remember me
                   </label>
                 </div>
 
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
+                  <a
+                    href="#"
+                    className="font-medium text-purple-600 hover:text-purple-500"
+                  >
                     Forgot password?
                   </a>
                 </div>
@@ -225,14 +255,32 @@ export default function LoginPage() {
               >
                 {loading ? (
                   <span className="flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     {isLogin ? "Signing in..." : "Creating account..."}
                   </span>
+                ) : isLogin ? (
+                  "Sign In"
                 ) : (
-                  isLogin ? "Sign In" : "Create Account"
+                  "Create Account"
                 )}
               </button>
             </div>
@@ -241,7 +289,9 @@ export default function LoginPage() {
           {/* Toggle Login/Signup */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
+              {isLogin
+                ? "Don't have an account? "
+                : "Already have an account? "}
               <button
                 onClick={() => {
                   setIsLogin(!isLogin);
@@ -258,4 +308,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
