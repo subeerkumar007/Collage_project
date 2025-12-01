@@ -9,16 +9,21 @@ export default function AddToCartButton({
   product: Product;
   small?: boolean;
 }) {
-  const { addItem, items, removeItem, updateQuantity } = useCart();
-  const existing = items.find((i) => i.id === product.id);
+  const { addItem, getItem, decrement, increment } = useCart();
+  const existing = getItem(product.id);
 
   const onDecrease = () => {
     if (!existing) return;
-    if (existing.quantity > 1) updateQuantity(existing.id, existing.quantity - 1);
-    else removeItem(existing.id);
+    decrement(existing.id);
   };
 
-  const onIncrease = () => addItem(product);
+  const onIncrease = () => {
+    if (existing) {
+      increment(existing.id);
+    } else {
+      addItem(product);
+    }
+  };
 
   if (existing) {
     return (

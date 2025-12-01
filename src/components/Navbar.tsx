@@ -5,12 +5,11 @@ import { useSession, signOut } from "next-auth/react";
 import { useToast } from "../context/ToastContext";
 import SearchBar from "./SearchBar";
 import LocationDetector from "./LocationDetector";
-import { useCart, CartItem } from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 
 export default function Navbar() {
-  const { items } = useCart();
+  const { totalItems } = useCart();
   const { data: session } = useSession();
-  const count = items.reduce((a: number, c: CartItem) => a + c.quantity, 0);
   const pathname = usePathname();
   const router = useRouter();
   const { showToast } = useToast();
@@ -116,9 +115,9 @@ export default function Navbar() {
             <span className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-md hover:shadow-lg transition-all transform hover:scale-105">
               Cart
             </span>
-            {count > 0 && (
+            {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full px-2.5 py-1 shadow-lg animate-pulse">
-                {count}
+                {totalItems}
               </span>
             )}
           </Link>
