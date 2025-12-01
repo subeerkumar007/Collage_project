@@ -1,5 +1,11 @@
 "use client";
 import { useCart, CartItem } from "../../context/CartContext";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const OrderModal = dynamic(() => import("../../components/OrderModal"), {
+  ssr: false,
+});
 
 export default function CartPage() {
   const {
@@ -13,6 +19,8 @@ export default function CartPage() {
     clear,
     totalItems,
   } = useCart();
+
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -126,11 +134,20 @@ export default function CartPage() {
               <span>₹{grandTotal.toFixed(2)}</span>
             </div>
           </div>
-          <button className="mt-5 w-full px-4 py-3 bg-brand rounded-lg font-semibold">
+          <button
+            onClick={() => setCheckoutOpen(true)}
+            className="mt-5 w-full px-4 py-3 bg-brand rounded-lg font-semibold"
+          >
             Proceed to Checkout
           </button>
         </div>
       )}
+
+      {/* Keep checkout modal mounted even after cart is cleared so user sees tracking */}
+      <OrderModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+      />
     </div>
   );
 }

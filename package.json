@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "socket": "node socket-server.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.8.0",
+    "mapbox-gl": "^3.16.0",
     "mongodb": "^7.0.0",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^2.2.1",
@@ -21,9 +23,12 @@
     "next-connect": "^1.0.0",
     "prisma": "^5.22.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^3.4.1",
     "@types/multer": "^2.0.0",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.33",
