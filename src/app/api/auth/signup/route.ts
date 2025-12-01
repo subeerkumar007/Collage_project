@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import clientPromise from "../../../../lib/mongodb";
-import { createUserObject } from "../../../../lib/models/User";
+import prisma from "../../../../lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -31,13 +30,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Connect to MongoDB
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_DB || "rushnow");
-    const usersCollection = db.collection("users");
-
     // Check if user already exists
-    const existingUser = await usersCollection.findOne({ email: email.toLowerCase() });
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
     if (existingUser) {
       return NextResponse.json(
         { error: "Email already registered" },
@@ -48,16 +45,19 @@ export async function POST(request: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user object
-    const newUser = createUserObject(name, email.toLowerCase(), hashedPassword);
-
-    // Insert into database
-    const result = await usersCollection.insertOne(newUser);
+    // Create user in database
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email: email.toLowerCase(),
+        password: hashedPassword,
+      },
+    });
 
     return NextResponse.json(
       {
         message: "User created successfully",
-        user: { id: result.insertedId, name, email },
+        user: { id: newUser.id, name: newUser.name, email: newUser.email },
       },
       { status: 201 }
     );

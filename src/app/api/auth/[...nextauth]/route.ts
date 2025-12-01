@@ -2,7 +2,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import clientPromise from "../../../../lib/mongodb";
+import prisma from "../../../../lib/prisma";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -22,13 +22,10 @@ const authOptions: NextAuthOptions = {
         }
 
         try {
-          // Connect to MongoDB and check credentials
-          const client = await clientPromise;
-          const db = client.db(process.env.MONGODB_DB || "rushnow");
-          const usersCollection = db.collection("users");
-
-          // Find user by email
-          const user = await usersCollection.findOne({ email: credentials.email.toLowerCase() });
+          // Find user by email using Prisma
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email.toLowerCase() },
+          });
 
           if (!user) {
             return null;
@@ -43,7 +40,7 @@ const authOptions: NextAuthOptions = {
 
           // Return user object (without password)
           return {
-            id: user._id?.toString() || "",
+            id: user.id,
             email: user.email,
             name: user.name,
           };

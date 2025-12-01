@@ -1,34 +1,24 @@
 // app/api/database/route.ts
-import clientPromise, { DB_NAME } from "../../../lib/mongodb";
+import prisma from "../../../lib/prisma";
 
 export async function GET() {
   try {
-    const client = await clientPromise;
+    // Test Prisma connection by querying user count
+    const userCount = await prisma.user.count();
     
-    // Use database name from mongodb.ts
-    const db = client.db(DB_NAME);
-    
-    // Test connection with ping
-    const pingResult = await db.command({ ping: 1 });
-    
-    // Get database stats
-    const stats = await db.stats();
-    
-    // List collections
-    const collections = await db.listCollections().toArray();
+    // Get database info
+    const dbUrl = process.env.DATABASE_URL || "";
+    const dbName = dbUrl.split("/").pop()?.split("?")[0] || "unknown";
     
     return new Response(
       JSON.stringify({
         success: true,
-        message: "Database connection successful",
-        database: DB_NAME,
-        ping: pingResult,
+        message: "Prisma connection successful",
+        database: dbName,
+        orm: "Prisma",
         stats: {
-          collections: stats.collections,
-          dataSize: stats.dataSize,
-          storageSize: stats.storageSize,
+          userCount,
         },
-        collections: collections.map((c) => c.name),
         timestamp: new Date().toISOString(),
       }),
       {
@@ -43,9 +33,9 @@ export async function GET() {
     let errorMessage = err.message || String(err);
     let errorType = "Unknown Error";
     
-    if (err.message?.includes("MONGODB_URI")) {
+    if (err.message?.includes("DATABASE_URL")) {
       errorType = "Configuration Error";
-      errorMessage = "MONGODB_URI is missing in .env.local file. Please add your MongoDB connection string.";
+      errorMessage = "DATABASE_URL is missing in .env.local file. Please add your MongoDB connection string.";
     } else if (err.message?.includes("authentication failed")) {
       errorType = "Authentication Error";
       errorMessage = "MongoDB authentication failed. Please check your username and password in the connection string.";
