@@ -1,6 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import clientPromise from "../../../../lib/mongodb";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -19,24 +21,36 @@ const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const users = [
-          { id: "1", email: "demo@rushnow.com", password: "demo123", name: "Demo User" },
-          {id : "2",email: "subeer@gmail.com",password:"123456",name:"subeer"},
-        ];
+        try {
+          // Connect to MongoDB and check credentials
+          const client = await clientPromise;
+          const db = client.db(process.env.MONGODB_DB || "rushnow");
+          const usersCollection = db.collection("users");
 
-        const user = users.find(
-          (u) => u.email === credentials.email && u.password === credentials.password
-        );
+          // Find user by email
+          const user = await usersCollection.findOne({ email: credentials.email.toLowerCase() });
 
-        if (user) {
+          if (!user) {
+            return null;
+          }
+
+          // Verify password using bcrypt
+          const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          // Return user object (without password)
           return {
-            id: user.id,
+            id: user._id?.toString() || "",
             email: user.email,
             name: user.name,
           };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
         }
-
-        return null;
       },
     }),
   ],
