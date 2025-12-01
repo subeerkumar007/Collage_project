@@ -30,6 +30,7 @@ export default function RootLayout({
           <CartProvider>
             <ToastProvider>
               <Navbar />
+              {/* Carousel removed from global layout; renders only on homepage */}
               <div className="flex-1 container mx-auto px-4 py-4">
                 {children}
               </div>

@@ -95,6 +95,33 @@ export const products: Product[] = [
     category: 'vegetables'
   },
   {
+    id: 'cabbage',
+    name: 'Cabbage',
+    description: 'Staple kitchen vegetable.',
+    price: 50,
+    unit: '1 kg',
+    image: 'https://res.cloudinary.com/dehccrol4/image/upload/v1764601277/images_kiskt9.jpg',
+    category: 'vegetables'
+  },
+  {
+    id: 'cauliflower',
+    name: 'Cauliflower',
+    description: 'Staple kitchen vegetable.',
+    price: 20,
+    unit: '500 gm',
+    image: 'https://res.cloudinary.com/dehccrol4/image/upload/v1764601356/91EdPVzD99L_ctrnyg.jpg',
+    category: 'vegetables'
+  },
+  {
+    id: 'Lady finger',
+    name: 'Lady finger',
+    description: 'Staple kitchen vegetable.',
+    price: 25,
+    unit: '500 gm',
+    image: 'https://res.cloudinary.com/dehccrol4/image/upload/v1764601428/51yqai2b3nL._AC_UF1000_1000_QL80__abk2zl.jpg',
+    category: 'vegetables'
+  },
+  {
     id: 'milk',
     name: 'Amul milk',
     description: 'Pasteurized fresh dairy milk.',
@@ -228,14 +255,5 @@ export const products: Product[] = [
     unit: '400 ml',
     image: 'https://res.cloudinary.com/dehccrol4/image/upload/v1764410978/nGq757qz_46bb08e1bea74b3e91cc6e289472e67d_opa8rz.webp',
     category: 'personal-care'
-  },
-  {
-    id: 'detergent',
-    name: 'Laundry Detergent',
-    description: 'Effective stain removal formula.',
-    price: 180,
-    unit: '1 kg',
-    image: '',
-    category: 'household'
   }
 ];

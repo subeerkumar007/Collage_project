@@ -23,7 +23,7 @@ export default function Navbar() {
     { label: "Beverages", href: "/category/beverages", icon: "🥤" },
     { label: "Snacks", href: "/category/snacks", icon: "🍪" },
     { label: "Personal", href: "/category/personal-care", icon: "🧴" },
-    { label: "Household", href: "/category/household", icon: "🧹" },
+
   ];
 
   const isActive = (href: string) =>

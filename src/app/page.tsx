@@ -1,9 +1,27 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Carousel = dynamic(() => import("../components/Carousel"), {
+  ssr: false,
+});
 
 export default function HomePage() {
-
   return (
     <div className="space-y-12">
+      {/* Homepage carousel - only on home page */}
+      <section>
+        <div className="container mx-auto px-4">
+          <Carousel
+            images={[
+              "https://res.cloudinary.com/dehccrol4/image/upload/v1764603501/21-03-2024-1711018043_am0ctu.webp",
+              "https://res.cloudinary.com/dehccrol4/image/upload/v1764602946/1600w-q0IZ-XX8Bjk_hyjsvy.jpg",
+              "https://res.cloudinary.com/dehccrol4/image/upload/v1764602685/10090286_onmdze.jpg",
+              "https://res.cloudinary.com/dehccrol4/image/upload/v1764601872/8852975_igjeft.jpg",
+            ]}
+            interval={4000}
+          />
+        </div>
+      </section>
       {/* Hero Section */}
       <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
@@ -15,7 +33,7 @@ export default function HomePage() {
                 Fast Delivery, Fresh Products
               </h1>
               <p className="text-lg md:text-xl mb-8 text-purple-100">
-                Get everything you need delivered to your doorstep in minutes. 
+                Get everything you need delivered to your doorstep in minutes.
                 Fresh groceries, daily essentials, and more!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -33,7 +51,7 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Right side - Visual elements */}
             <div className="relative hidden lg:block">
               <div className="grid grid-cols-2 gap-4">
@@ -71,17 +89,23 @@ export default function HomePage() {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition">
           <div className="text-4xl mb-3">🚚</div>
           <h3 className="font-semibold text-lg mb-2">Fast Delivery</h3>
-          <p className="text-gray-600 text-sm">Get your orders delivered in minutes, not hours.</p>
+          <p className="text-gray-600 text-sm">
+            Get your orders delivered in minutes, not hours.
+          </p>
         </div>
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition">
           <div className="text-4xl mb-3">✨</div>
           <h3 className="font-semibold text-lg mb-2">Fresh Products</h3>
-          <p className="text-gray-600 text-sm">Only the freshest products, handpicked for you.</p>
+          <p className="text-gray-600 text-sm">
+            Only the freshest products, handpicked for you.
+          </p>
         </div>
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition">
           <div className="text-4xl mb-3">💰</div>
           <h3 className="font-semibold text-lg mb-2">Best Prices</h3>
-          <p className="text-gray-600 text-sm">Competitive prices with great deals every day.</p>
+          <p className="text-gray-600 text-sm">
+            Competitive prices with great deals every day.
+          </p>
         </div>
       </section>
     </div>
